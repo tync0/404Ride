@@ -261,6 +261,8 @@ class _PolylineMapState extends State<PolylineMap> {
     }
   }
 
+  bool selected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -286,7 +288,12 @@ class _PolylineMapState extends State<PolylineMap> {
               right: 10,
               top: 350,
               child: InkWell(
-                onTap: _showRoute,
+                onTap: () {
+                  _showRoute();
+                  setState(() {
+                    selected = true;
+                  });
+                },
                 child: Container(
                   height: 45,
                   width: 45,
@@ -301,10 +308,12 @@ class _PolylineMapState extends State<PolylineMap> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: DraggableWidget(
-                startController: _init,
-                destinationController: _final,
-              ),
+              child: selected
+                  ? const ResultWidget()
+                  : DraggableWidget(
+                      startController: _init,
+                      destinationController: _final,
+                    ),
             ),
           ],
         ),
